@@ -107,16 +107,9 @@ export const deleteCategory = async (req, res, next) => {
 };
 
 export const getAllCategories = async (req, res, next) => {
-  const mongosseQuery = categoryModel
+  const categories = await categoryModel
     .find()
-    .populate([{ path: "subCategories" }]);
-  const api = new ApiFeatures(mongosseQuery, req.query)
-  .pagination(categoryModel)
-  .search()
-  .filter()
-  .select()
-  .sort()
-  const categories = await api.mongosseQuery;
+    .populate([{ path: "subCategories" , select : 'name'}]);
   res.status(200).json({
     success: true,
     message: "get all categories",
